@@ -1,7 +1,26 @@
 import 'package:flutter/material.dart';
 
-class CoffeePrefs extends StatelessWidget {
+class CoffeePrefs extends StatefulWidget {
   const CoffeePrefs({super.key});
+
+  @override
+  State<CoffeePrefs> createState() => _CoffeePrefsState();
+}
+
+class _CoffeePrefsState extends State<CoffeePrefs> {
+  int strenght = 1;
+  int sugars = 1;
+  void increateStrenght() {
+    setState(() {
+      strenght = strenght < 5 ? strenght + 1 : 1;
+    });
+  }
+
+  void increateSugar() {
+    setState(() {
+      sugars = sugars < 5 ? sugars + 1 : 0;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -10,35 +29,47 @@ class CoffeePrefs extends StatelessWidget {
         Row(
           children: [
             Text('Strength: '),
-            Text('3'),
-            Image.asset(
-              'assets/img/coffee_bean.png',
-              width: 25,
-              color: Colors.brown[100],
-              colorBlendMode: BlendMode.multiply,
-            ),
-            Expanded(child: SizedBox()),
-            Text(
-              '+',
-              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-            )
+            for (int i = 0; i < strenght; i++)
+              Image.asset(
+                'assets/img/coffee_bean.png',
+                width: 25,
+                color: Colors.brown[100],
+                colorBlendMode: BlendMode.multiply,
+              ),
+            const Expanded(child: SizedBox()),
+            FilledButton(
+                style: FilledButton.styleFrom(
+                  backgroundColor: Colors.brown,
+                  foregroundColor: Colors.white,
+                ),
+                onPressed: increateStrenght,
+                child: Text(
+                  '+',
+                  style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+                ))
           ],
         ),
         Row(
           children: [
             Text('Sugars: '),
-            Text('3'),
-            Image.asset(
-              'assets/img/sugar_cube.png',
-              width: 25,
-              color: Colors.brown[100],
-              colorBlendMode: BlendMode.multiply,
-            ),
-            Expanded(child: SizedBox()),
-            Text(
-              '+',
-              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-            )
+            if (sugars == 0) const Text('No sugars...'),
+            for (int i = 0; i < sugars; i++)
+              Image.asset(
+                'assets/img/sugar_cube.png',
+                width: 25,
+                color: Colors.brown[100],
+                colorBlendMode: BlendMode.multiply,
+              ),
+            const Expanded(child: SizedBox()),
+            FilledButton(
+                style: FilledButton.styleFrom(
+                    backgroundColor: Colors.brown,
+                    foregroundColor: Colors.white),
+                onPressed: increateSugar,
+                child: Text(
+                  '+',
+                  style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+                ))
           ],
         ),
       ],
